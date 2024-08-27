@@ -77,5 +77,19 @@ export class AuthService {
         }
     }
 
+    async validarAuth(payload: Payload) {
+        const { sub } = payload;
+        const idUsuario = sub;
+
+        const usuario = await this.prismaService.usuario.findUnique({
+            where: { id: idUsuario }
+        });
+
+        if (!usuario) return null;
+
+        const { id, email } = usuario;
+
+        return { id, email };
+    }
 
 }
